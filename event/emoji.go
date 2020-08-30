@@ -80,19 +80,23 @@ func (h EmojiHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 func (h EmojiHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, emojis []string, users []string) error {
 
 	karmaPerUser := h.getRequiredKarma(emojis, 1)
-
 	for _, user := range users {
 		h.db.GiveKarma(user, ev.User, karmaPerUser, time.Now())
 	}
 
+	mentions := Map(users, func(val string) string {
+		return fmt.Sprintf("<@%s>", val)
+	})
+
 	balance := h.getKarmaBalance(ev.User)
 	msg := fmt.Sprintf("%s received *%d emoji point(s)* from you.  You have *%d point(s)* left to give out today",
-		strings.Join(users, " "),
+		strings.Join(mentions, " "),
 		karmaPerUser,
 		balance)
 
 	_, _, err := rtm.PostMessage(
 		ev.User,
+		slack.MsgOptionEnableLinkUnfurl(),
 		slack.MsgOptionText(msg, false),
 		slack.MsgOptionAsUser(true),
 	)
