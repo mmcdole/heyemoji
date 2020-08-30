@@ -1,9 +1,6 @@
 package event
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/slack-go/slack"
 )
 
@@ -16,12 +13,3 @@ const (
 	directChannelMarker = "D"
 	userMentionFormat   = "<@%s>"
 )
-
-func IsBotMentioned(event *slack.MessageEvent, rtm *slack.RTM) bool {
-	info := rtm.GetInfo()
-	return strings.Contains(event.Text, fmt.Sprintf(userMentionFormat, info.User.ID))
-}
-
-func IsDirectMessage(event *slack.MessageEvent) bool {
-	return strings.HasPrefix(event.Channel, directChannelMarker)
-}

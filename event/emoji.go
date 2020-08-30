@@ -55,16 +55,57 @@ func (h EmojiHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 		return true
 	}
 
-	required := h.requiredKarma(emojis, len(users))
-	balance := h.karmaBalance(ev.User)
+	required := h.getRequiredKarma(emojis, len(users))
+	balance := h.getKarmaBalance(ev.User)
 	if balance < required {
 		h.handleInsufficientKarma(ev, rtm, balance, required, emojis, users)
 		return true
 	}
 
+	filteredUsers := Filter(users, func(val string) bool {
+		return val != ev.User
+	})
+	if len(filteredUsers) != len(users) {
+		h.handleSelfKarma(ev, rtm)
+	}
 
-	
-	return true
+	if len(filteredUsers) > 0 {
+		h.handleSuccess(ev, rtm, emojis, filteredUsers)
+		return true
+	}
+
+	return false
+}
+
+func (h EmojiHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, emojis []string, users []string) error {
+
+	karmaPerUser := h.getRequiredKarma(emojis, 1)
+
+	for _, user := range users {
+		h.db.GiveKarma(user, ev.User, karmaPerUser, time.Now())
+	}
+
+	balance := h.getKarmaBalance(ev.User)
+	msg := fmt.Sprintf("%s received *%d emoji point(s)* from you.  You have *%d point(s)* left to give out today",
+		strings.Join(users, " "),
+		karmaPerUser,
+		balance)
+
+	_, _, err := rtm.PostMessage(
+		ev.User,
+		slack.MsgOptionText(msg, false),
+		slack.MsgOptionAsUser(true),
+	)
+	return err
+}
+
+func (h EmojiHandler) handleSelfKarma(ev *slack.MessageEvent, rtm *slack.RTM) error {
+	_, err := rtm.PostEphemeral(
+		ev.Channel,
+		ev.User,
+		slack.MsgOptionText("Sorry, you can only give emoji points to other people on your team.", false),
+	)
+	return err
 }
 
 func (h EmojiHandler) handleDirectMessage(ev *slack.MessageEvent, rtm *slack.RTM) error {
@@ -99,7 +140,6 @@ func (h EmojiHandler) handleInsufficientKarma(ev *slack.MessageEvent, rtm *slack
 		ev.User,
 		slack.MsgOptionText(msg, false),
 	)
-
 	return err
 }
 
@@ -143,12 +183,14 @@ func (h EmojiHandler) parseEmojis(msg string) []string {
 	return emoji
 }
 
-func (h EmojiHandler) karmaBalance(user string) int {
+// Get the daily karma balance left for a user
+func (h EmojiHandler) getKarmaBalance(user string) int {
 	given, _ := h.db.QueryKarmaGiven(user, h.lastReset())
 	return h.dailyCap - given
 }
 
-func (h EmojiHandler) requiredKarma(emoji []string, numUsers int) int {
+// Get the required karma for a set of emoji and receivers
+func (h EmojiHandler) getRequiredKarma(emoji []string, numUsers int) int {
 	total := 0
 	for _, e := range emoji {
 		if karma, ok := h.emoji[e]; ok {
@@ -158,6 +200,7 @@ func (h EmojiHandler) requiredKarma(emoji []string, numUsers int) int {
 	return total * numUsers
 }
 
+// Format a time.Duration till karma reset for display to user
 func (h EmojiHandler) fmtDuration(d time.Duration) string {
 	d = d.Round(time.Minute)
 	hr := d / time.Hour

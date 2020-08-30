@@ -15,7 +15,7 @@ func (d JSONLineDriver) Open() error {
 
 }
 
-func (d JSONLineDriver) GiveKarma(to string, from string, amount int, emoji string, date time.Time) error {
+func (d JSONLineDriver) GiveKarma(to string, from string, amount int, date time.Time) error {
 	return nil
 }
 
