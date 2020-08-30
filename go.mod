@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/shomali11/slacker v0.0.0-20200610181250-3156f073f291
+	github.com/slack-go/slack v0.6.3
 	github.com/spf13/viper v1.7.0
 )
 

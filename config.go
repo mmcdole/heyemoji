@@ -1,6 +1,9 @@
 package main
 
 import (
+	"strconv"
+	"strings"
+
 	"github.com/spf13/viper"
 )
 
@@ -9,6 +12,7 @@ type Config struct {
 	DatabasePath  string
 	SlackToken    string
 	SlackEmoji    string
+	SlackEmojiMap map[string]int
 	SlackDailyCap int
 	WebSocketPort int
 }
@@ -20,7 +24,7 @@ func readConfig() *Config {
 	viper.SetDefault("bot_name", "heyemoji")
 	viper.SetDefault("database_path", "./data/")
 	viper.SetDefault("slack_api_token", "")
-	viper.SetDefault("slack_emoji", ":star:")
+	viper.SetDefault("slack_emoji", "star:1")
 	viper.SetDefault("slack_daily_cap", 5)
 	viper.SetDefault("websocket_port", 3334)
 
@@ -33,5 +37,26 @@ func readConfig() *Config {
 		WebSocketPort: viper.GetInt("websocket_port"),
 	}
 
+	c.SlackEmojiMap = createEmojiValueMap(c.SlackEmoji)
+
 	return c
+}
+
+func createEmojiValueMap(e string) map[string]int {
+	pairs := strings.Split(e, ",")
+
+	evalues := make(map[string]int)
+	for _, pair := range pairs {
+		evalue := strings.Split(pair, ":")
+
+		if len(evalue) != 2 {
+			continue
+		}
+
+		emoji := evalue[0]
+		if karma, err := strconv.Atoi(evalue[1]); err == nil {
+			evalues[emoji] = karma
+		}
+	}
+	return evalues
 }
