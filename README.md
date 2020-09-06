@@ -1,7 +1,7 @@
 # heyemoji 🏆 👏 🌟
 # 
 
-[![Build](https://img.shields.io/docker/build/mmcdole/heyemoji)](https://dockerhub.com/mmcdole/heyemoji)] [![Go Report Card](https://goreportcard.com/badge/github.com/mmcdole/heyemoji)](https://goreportcard.com/report/github.com/mmcdole/heyemoji) [![Doc](https://godoc.org/github.com/mmcdole/heyemoji?status.svg)](http://godoc.org/github.com/mmcdole/heyemoji) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![Build](https://img.shields.io/docker/build/mmcdole/heyemoji)](https://dockerhub.com/mmcdole/heyemoji) [![Go Report Card](https://goreportcard.com/badge/github.com/mmcdole/heyemoji)](https://goreportcard.com/report/github.com/mmcdole/heyemoji) [![Doc](https://godoc.org/github.com/mmcdole/heyemoji?status.svg)](http://godoc.org/github.com/mmcdole/heyemoji) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 The `heyemoji` app is a slack reward system that allows team members to recognize eachother for anything awesome they may have done.  This is done by mentioning a user's slack **@username** in a channel along with a pre-configured reward **emoji** and a brief **description** of what they did.  The emoji points bestowed to users can be tracked via leaderboards.
 
