@@ -4,9 +4,15 @@ import (
 	"bufio"
 	"encoding/json"
 	"os"
+	"path/filepath"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
+)
+
+const (
+	dbFileName = "db.jsonl"
 )
 
 type KarmaEvent struct {
@@ -29,20 +35,29 @@ type JSONLineDriver struct {
 	path    string
 	cache   []KarmaEvent
 	file    *os.File
+	mutex   sync.Mutex
 }
 
-func (d JSONLineDriver) Open() error {
+func (d *JSONLineDriver) Open() error {
+	// Create db directory path if it doesn't exist
+	_, err := os.Stat(d.path)
+	if os.IsNotExist(err) {
+		errDir := os.MkdirAll(d.path, 0755)
+		if errDir != nil {
+			return errDir
+		}
+	}
 
 	// Load karma events until 'maxDays' ago into memory
 	maxDate := time.Now().AddDate(0, 0, -(d.maxDays + 1))
-	events, err := d.loadEvents(d.path, maxDate)
+	events, err := d.loadEvents(maxDate)
 	if err != nil {
 		return err
 	}
 	d.cache = events
 
-	// Open / create db file writing updates
-	file, err := os.OpenFile(d.path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// Open db file writing updates
+	file, err := os.OpenFile(filepath.Join(d.path, dbFileName), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
 	}
@@ -51,14 +66,17 @@ func (d JSONLineDriver) Open() error {
 	return nil
 }
 
-func (d JSONLineDriver) Close() error {
+func (d *JSONLineDriver) Close() error {
 	if d.file == nil {
 		return nil
 	}
 	return d.file.Close()
 }
 
-func (d JSONLineDriver) GiveKarma(to string, from string, amount int, date time.Time) error {
+func (d *JSONLineDriver) GiveKarma(to string, from string, amount int, date time.Time) error {
+	d.mutex.Lock()
+	defer d.mutex.Unlock()
+
 	id := uuid.New()
 	karma := KarmaEvent{ID: id.String(), From: from, To: to, Amount: amount, Date: date}
 
@@ -77,7 +95,7 @@ func (d JSONLineDriver) GiveKarma(to string, from string, amount int, date time.
 	return nil
 }
 
-func (d JSONLineDriver) QueryKarmaGiven(user string, since time.Time) (int, error) {
+func (d *JSONLineDriver) QueryKarmaGiven(user string, since time.Time) (int, error) {
 	karma := 0
 	for _, e := range d.getEvents() {
 		if e.From == user && e.Date.After(since) {
@@ -87,7 +105,7 @@ func (d JSONLineDriver) QueryKarmaGiven(user string, since time.Time) (int, erro
 	return karma, nil
 }
 
-func (d JSONLineDriver) QueryKarmaReceived(user string, since time.Time) (int, error) {
+func (d *JSONLineDriver) QueryKarmaReceived(user string, since time.Time) (int, error) {
 	karma := 0
 	for _, e := range d.getEvents() {
 		if e.To == user && e.Date.After(since) {
@@ -97,7 +115,7 @@ func (d JSONLineDriver) QueryKarmaReceived(user string, since time.Time) (int, e
 	return karma, nil
 }
 
-func (d JSONLineDriver) QueryLeaderboard(since time.Time) (map[string]int, error) {
+func (d *JSONLineDriver) QueryLeaderboard(since time.Time) (map[string]int, error) {
 	result := map[string]int{}
 	for _, e := range d.getEvents() {
 		if e.Date.After(since) {
@@ -111,7 +129,7 @@ func (d JSONLineDriver) QueryLeaderboard(since time.Time) (map[string]int, error
 	return result, nil
 }
 
-func (d JSONLineDriver) getEvents() []KarmaEvent {
+func (d *JSONLineDriver) getEvents() []KarmaEvent {
 	maxDate := time.Now().AddDate(0, 0, -(d.maxDays + 1))
 	// Trim old events each time we access the field
 	d.cache = d.removeEventsBefore(d.cache, maxDate)
@@ -119,7 +137,7 @@ func (d JSONLineDriver) getEvents() []KarmaEvent {
 }
 
 // Remove any days that are before a cutoff 'earliest' date
-func (d JSONLineDriver) removeEventsBefore(events []KarmaEvent, earliest time.Time) []KarmaEvent {
+func (d *JSONLineDriver) removeEventsBefore(events []KarmaEvent, earliest time.Time) []KarmaEvent {
 	result := []KarmaEvent{}
 	for _, event := range events {
 		if event.Date.After(earliest) {
@@ -130,9 +148,8 @@ func (d JSONLineDriver) removeEventsBefore(events []KarmaEvent, earliest time.Ti
 }
 
 // Load events in the jsonl file that aren't before 'earliest' date
-func (d JSONLineDriver) loadEvents(path string, earliest time.Time) ([]KarmaEvent, error) {
-
-	file, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE, 0644)
+func (d *JSONLineDriver) loadEvents(earliest time.Time) ([]KarmaEvent, error) {
+	file, err := os.OpenFile(filepath.Join(d.path, dbFileName), os.O_RDONLY|os.O_CREATE, 0644)
 	if err != nil {
 		return nil, err
 	}

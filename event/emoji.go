@@ -137,7 +137,7 @@ func (h EmojiHandler) handleInsufficientKarma(ev *slack.MessageEvent, rtm *slack
 		"Your point balance will reset in *%s*.",
 		required,
 		balance,
-		h.fmtDuration(h.timeTillReset()))
+		FmtDuration(TimeTillPointReset()))
 
 	_, err := rtm.PostEphemeral(
 		ev.Channel,
@@ -189,7 +189,7 @@ func (h EmojiHandler) parseEmojis(msg string) []string {
 
 // Get the daily karma balance left for a user
 func (h EmojiHandler) getKarmaBalance(user string) int {
-	given, _ := h.db.QueryKarmaGiven(user, h.lastReset())
+	given, _ := h.db.QueryKarmaGiven(user, LastPointReset())
 	return h.dailyCap - given
 }
 
@@ -202,35 +202,4 @@ func (h EmojiHandler) getRequiredKarma(emoji []string, numUsers int) int {
 		}
 	}
 	return total * numUsers
-}
-
-// Format a time.Duration till karma reset for display to user
-func (h EmojiHandler) fmtDuration(d time.Duration) string {
-	d = d.Round(time.Minute)
-	hr := d / time.Hour
-	d -= hr * time.Hour
-	m := d / time.Minute
-	return fmt.Sprintf("%2d hours and %2d minutes", hr, m)
-}
-
-// Return last emoji reset time
-func (h EmojiHandler) lastReset() time.Time {
-	reset := time.Now()
-	reset = time.Date(reset.Year(), reset.Month(), reset.Day(), 0, 0, 0, 0, reset.Location())
-	return reset
-}
-
-// Return next emoji reset time
-func (h EmojiHandler) nextReset() time.Time {
-	now := time.Now()
-	reset := now.AddDate(0, 0, 1)
-	reset = time.Date(reset.Year(), reset.Month(), reset.Day(), 0, 0, 0, 0, reset.Location())
-	return reset
-}
-
-// Return time till the next emoji reset
-func (h EmojiHandler) timeTillReset() time.Duration {
-	reset := h.nextReset()
-	// Duration till reset
-	return reset.Sub(time.Now())
 }

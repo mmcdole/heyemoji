@@ -13,7 +13,7 @@ import (
 func main() {
 
 	cfg := readConfig()
-	db := database.NewJSONLineDriver(cfg.DatabasePath)
+	db := database.NewJSONLineDriver(cfg.DatabasePath, 30)
 
 	if err := db.Open(); err != nil {
 		log.Fatalf("Failed to open db: %v", err)
@@ -21,7 +21,8 @@ func main() {
 
 	events := []event.EventHandler{
 		event.PingHandler{},
-		event.HelpHandler{},
+		event.NewHelpHandler(cfg.SlackDailyCap, cfg.SlackEmojiMap),
+		event.NewPointsHandler(cfg.SlackDailyCap, db),
 		event.NewEmojiHandler(cfg.SlackEmojiMap, cfg.SlackDailyCap, db),
 	}
 

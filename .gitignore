@@ -15,4 +15,5 @@
 # vendor/
 .vscode/
 heyemoji
+data/
 __debug_bin
