@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/mmcdole/heyemoji.svg?branch=master)](https://travis-ci.org/mmcdole/heyemoji) [![Coverage Status](https://coveralls.io/repos/github/mmcdole/heyemoji/badge.svg?branch=master)](https://coveralls.io/github/mmcdole/heyemoji?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/mmcdole/heyemoji)](https://goreportcard.com/report/github.com/mmcdole/heyemoji) [![](https://godoc.org/github.com/mmcdole/heyemoji?status.svg)](http://godoc.org/github.com/mmcdole/heyemoji) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
-The `heyemoji` app is a slack reward system that allows team members to recognize eachother for the work they do.  This is done by mentioning a user's slack name in a channel along with a pre-configured set of reward emoji.
+The `heyemoji` app is a Slack reward system that allows team members to recognize eachother.  This is done by mentioning a user's slack name in a channel along with a pre-configured set of reward emoji.
 
 ## Table of Contents
 
