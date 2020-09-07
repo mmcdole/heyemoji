@@ -1,9 +1,9 @@
-# heyemoji
+# heyemoji 🏆 👏 ⭐
 # 
 
-[![Build Status](https://travis-ci.org/mmcdole/heyemoji.svg?branch=master)](https://travis-ci.org/mmcdole/heyemoji) [![Coverage Status](https://coveralls.io/repos/github/mmcdole/heyemoji/badge.svg?branch=master)](https://coveralls.io/github/mmcdole/heyemoji?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/mmcdole/heyemoji)](https://goreportcard.com/report/github.com/mmcdole/heyemoji) [![](https://godoc.org/github.com/mmcdole/heyemoji?status.svg)](http://godoc.org/github.com/mmcdole/heyemoji) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/mmcdole/heyemoji) [![Go Report Card](https://goreportcard.com/badge/github.com/mmcdole/heyemoji)](https://goreportcard.com/report/github.com/mmcdole/heyemoji) [![Doc](https://godoc.org/github.com/mmcdole/heyemoji?status.svg)](http://godoc.org/github.com/mmcdole/heyemoji) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
-The `heyemoji` app is a slack reward system that allows team members to recognize eachother for anything awesome they may have done.  This is done by mentioning a user's slack **@username** in a channel along with a pre-configured reward **emoji** and a brief **description** of what they did.  The emoji points bestowed to users can be tracked via leaderboards.
+The `heyemoji` bot is a slack reward system that allows team members to recognize eachother for anything awesome they may have done.  This is done by mentioning a user's slack **@username** in a channel along with a pre-configured reward **emoji** and an optional **description** of what they did.  The emoji points bestowed to users can be tracked via leaderboards.
 
 ## Table of Contents
 
@@ -19,12 +19,12 @@ The `heyemoji` app is a slack reward system that allows team members to recogniz
 
 | ENV Var         | Default  | Required | Note                                                          |   |
 |-----------------|----------|----------|---------------------------------------------------------------|---|
-| BOT_NAME        | heyemoji | No       | The display name of the heyemoji bot                          |   |
-| DATABASE_PATH   | ./data/  | No       | The directory that the database files should be written to    |   |
-| SLACK_API_TOKEN |          | Yes      | The API tokens for the Slack API                              |   |
-| SLACK_EMOJI     | star:1   | No       | Comma delimited set of emoji "name:value" pairs               |   |
-| SLACK_DAILY_CAP | 5        | No       | The max number of emoji points that can be given out in a day |   |
-| WEBSOCKET_PORT  | 3334     | No       | Port that the Slack RTM client will listen on                 |   |
+| HEY_BOT_NAME        | heyemoji | No       | The display name of the heyemoji bot                          |   |
+| HEY_DATABASE_PATH   | ./data/  | No       | The directory that the database files should be written to    |   |
+| HEY_SLACK_API_TOKEN |          | Yes      | The API tokens for the Slack API                              |   |
+| HEY_SLACK_EMOJI     | star:1   | No       | Comma delimited set of emoji "name:value" pairs               |   |
+| HEY_SLACK_DAILY_CAP | 5        | No       | The max number of emoji points that can be given out in a day |   |
+| HEY_WEBSOCKET_PORT  | 3334     | No       | Port that the Slack RTM client will listen on                 |   |
 
 ## Docker
 
