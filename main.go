@@ -19,8 +19,9 @@ func main() {
 		log.Fatalf("Failed to open db: %v", err)
 	}
 
-	events := []event.EventHandler{
+	handlers := []event.EventHandler{
 		event.PingHandler{},
+		event.NewLeaderHandler(db),
 		event.NewHelpHandler(cfg.SlackDailyCap, cfg.SlackEmojiMap),
 		event.NewPointsHandler(cfg.SlackDailyCap, db),
 		event.NewEmojiHandler(cfg.SlackEmojiMap, cfg.SlackDailyCap, db),
@@ -39,11 +40,11 @@ func main() {
 		fmt.Print("Event Received: ")
 		fmt.Printf("Message: %v\n", msg.Data)
 
-		for _, ev := range events {
-			if !ev.Matches(msg, rtm) {
+		for _, h := range handlers {
+			if !h.Matches(msg, rtm) {
 				continue
 			}
-			if handled := ev.Execute(msg, rtm); handled {
+			if handled := h.Execute(msg, rtm); handled {
 				break
 			}
 		}

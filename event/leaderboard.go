@@ -2,12 +2,25 @@ package event
 
 import (
 	"fmt"
+	"sort"
 	"strings"
+	"time"
 
+	"github.com/mmcdole/heyemoji/database"
 	"github.com/slack-go/slack"
 )
 
-type LeaderHandler struct{}
+const (
+	maxLeaderEntries = 10
+)
+
+func NewLeaderHandler(db database.Driver) LeaderHandler {
+	return LeaderHandler{db: db}
+}
+
+type LeaderHandler struct {
+	db database.Driver
+}
 
 func (h LeaderHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	msg, ok := e.Data.(*slack.MessageEvent)
@@ -24,11 +37,76 @@ func (h LeaderHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 }
 
 func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
-	msg, _ := e.Data.(*slack.MessageEvent)
+	ev, _ := e.Data.(*slack.MessageEvent)
 
-	fmt.Println("EXECUTE PING START")
-	fmt.Printf("Channel: %s\n", msg.Channel)
-	rtm.SendMessage(rtm.NewOutgoingMessage("pong", msg.Channel))
+	var header string
+	start := time.Now()
+	if strings.Contains(ev.Text, "day") {
+		start = start.AddDate(0, 0, -1)
+		header = "Today's Leaderboard"
+	} else if strings.Contains(ev.Text, "week") {
+		start = start.AddDate(0, 0, -7)
+		header = "This Week's Leaderboard"
+	} else {
+		/* Default to Month */
+		start = start.AddDate(0, -1, 0)
+		header = "This Month's Leaderboard"
+	}
 
+	leaders, err := h.db.QueryLeaderboard(start)
+	if err != nil {
+		return false
+	}
+
+	if len(leaders) == 0 {
+		h.handleEmptyLeaderboard(ev, rtm)
+		return true
+	}
+
+	h.handleSuccess(ev, rtm, leaders, header)
 	return true
+}
+
+func (h LeaderHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, leaders map[string]int, header string) error {
+	rank := h.rankMapStringInt(leaders)
+	msg := fmt.Sprintf(">*%s*\n", header)
+	for i := 0; i < len(rank) && i < maxLeaderEntries; i++ {
+		name := rank[i]
+		uinfo, err := rtm.GetUserInfo(rank[i])
+		if err == nil {
+			name = uinfo.Name
+		}
+		msg += fmt.Sprintf(">%d) %s `%d`\n", i+1, name, leaders[rank[i]])
+	}
+
+	rtm.SendMessage(rtm.NewOutgoingMessage(msg, ev.Channel))
+	return nil
+}
+
+func (h LeaderHandler) handleEmptyLeaderboard(ev *slack.MessageEvent, rtm *slack.RTM) error {
+	_, err := rtm.PostEphemeral(
+		ev.Channel,
+		ev.User,
+		slack.MsgOptionText("Nobody has given any emoji points yet!", false),
+	)
+	return err
+}
+
+func (h LeaderHandler) rankMapStringInt(values map[string]int) []string {
+	type kv struct {
+		Key   string
+		Value int
+	}
+	var ss []kv
+	for k, v := range values {
+		ss = append(ss, kv{k, v})
+	}
+	sort.Slice(ss, func(i, j int) bool {
+		return ss[i].Value > ss[j].Value
+	})
+	ranked := make([]string, len(values))
+	for i, kv := range ss {
+		ranked[i] = kv.Key
+	}
+	return ranked
 }
