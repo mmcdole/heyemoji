@@ -78,6 +78,9 @@ func (h LeaderHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, lea
 		}
 		msg += fmt.Sprintf(">%d) %s `%d`\n", i+1, name, leaders[rank[i]])
 	}
+	msg += ">\n"
+	msg += "> You can view other leaderboards! :tada:\n"
+	msg += "> *leaderboard <day | week | year>*"
 
 	rtm.SendMessage(rtm.NewOutgoingMessage(msg, ev.Channel))
 	return nil

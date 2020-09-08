@@ -122,7 +122,7 @@ func (d *JSONLineDriver) QueryLeaderboard(since time.Time) (map[string]int, erro
 			if val, ok := result[e.To]; ok {
 				result[e.To] = val + e.Amount
 			} else {
-				result[e.To] = val
+				result[e.To] = e.Amount
 			}
 		}
 	}
