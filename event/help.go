@@ -10,11 +10,11 @@ import (
 
 type HelpHandler struct {
 	dailyCap int
-	emoji    map[string]int
+	emojiMap map[string]int
 }
 
-func NewHelpHandler(dailyCap int, emoji map[string]int) HelpHandler {
-	return HelpHandler{dailyCap: dailyCap, emoji: emoji}
+func NewHelpHandler(dailyCap int, emojiMap map[string]int) HelpHandler {
+	return HelpHandler{dailyCap: dailyCap, emojiMap: emojiMap}
 }
 
 func (h HelpHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
@@ -33,7 +33,9 @@ func (h HelpHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 
 func (h HelpHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	tmp := `>*Directions*
->Add a recognition emoji after someone's username like this @username Great job! :{{.Emoji}}:. Everyone has {{.DailyCap}} emoji points to give out per day and can only give them in the channels I've been invited to.
+>Add a recognition emoji after someone's username like this: *@username Great job!* :{{index .Emoji 0}}:. Everyone has {{.DailyCap}} emoji points to give out per day and can only give them in the channels I've been invited to.
+>*Recognition Emoji*
+>{{ range $key, $value := .EmojiMap }}:{{$key}}: *({{$value}} pts)*  {{end}}
 >*Channel Commands*
 >/invite <@{{.Botname}}>: to invite me to channels
 ><@{{.Botname}}> leaderboard <day|week|month>: to see the top 10 people on your leaderboard
@@ -49,11 +51,13 @@ func (h HelpHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	var helpStr bytes.Buffer
 	t.Execute(&helpStr, struct {
 		Botname  string
-		Emoji    string
+		Emoji    []string
+		EmojiMap map[string]int
 		DailyCap int
 	}{
 		rtm.GetInfo().User.Name,
-		"star",
+		Keys(h.emojiMap),
+		h.emojiMap,
 		h.dailyCap,
 	})
 
