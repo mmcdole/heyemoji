@@ -30,15 +30,22 @@ If you mention multiple people in a message they will all receive emoji points.
 
 You can give more than one emoji to user(s) in a single message.
 
-`Omg, @petergibbons found my red stapler! ⭐ ⭐ ⭐ ⭐ `
+`Score! @petergibbons found my red stapler! ⭐ 🏆 👏 👏 `
 
-#### Checking leaderboards
+### Bot Commands
 
-In a channel where the bot is present, or in an IM directly to the bot you can access the leaderboard command to see who currently has the most emoji points for a certain time period.
+| Channel Command                          | Description                                                |
+|------------------------------------------|------------------------------------------------------------|
+| `/invite @heyemoji`                      | invite me to channels                                      |
+| `@heyemoji leaderboard <day\|week\|month>` | see the top 10 people on your leaderboard                  |
+| `@heyemoji points`                       | see how many emoji points you have left to give            |
+| `@heyemoji help`                         | get help with how to send recognition emoji                |
 
-**Channel**: `@heyemoji leaderboard month`
-
-**IM**:`leaderboard day`
+| Direct Message Command                   | Description                                                |
+|------------------------------------------|------------------------------------------------------------|
+| `leaderboard <day\|week\|month>`           | see the top 10 people on your leaderboard                  |
+| `points`                                 | see how many emoji points you have left to give            |
+| `help`                                   | get help with how to send recognition emoji                |
 
 
 ## Configuration
