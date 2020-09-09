@@ -10,7 +10,6 @@ The `heyemoji` bot is a self-hosted slack reward system that allows team members
 - [Usage](#basic-usage)
 - [Setup](#setup)
 - [Configuration](#configuration)
-- [Docker](#docker)
 
 ## Basic Usage
 
@@ -67,7 +66,4 @@ The `HEY_SLACK_EMOJI` setting lets you specify multiple different reward emoji a
 | 🏆             | 3      |
 
 You would specify the `HEY_SLACK_EMOJI` as: `star:1,clap:2,trophy:3`
-
-## Docker
-
 
