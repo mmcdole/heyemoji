@@ -16,37 +16,33 @@ The `heyemoji` bot is a self-hosted slack reward system that allows team members
 
 #### Give a single user emoji points 
 
-Simply mention a slack user's @username and one of the reward emoji in a room with the `heyemoji` bot.
-
 `Great job filling out those TPS reports @michael.bolton! ⭐` 
 
 #### Give multiple users emoji points
-
-If you mention multiple people in a message they will all receive emoji points.
 
 `Thanks @michael.bolton and @samir for coming in this weekend! ⭐`
 
 #### Give multiple emojis to a user
 
-You can give more than one emoji to user(s) in a single message.
-
 `Score! @petergibbons found my red stapler! ⭐ 🏆 👏 👏 `
 
 ### Bot Commands
 
-| Channel Command                          | Description                                                |
-|------------------------------------------|------------------------------------------------------------|
-| `/invite @heyemoji`                      | invite me to channels                                      |
-| `@heyemoji leaderboard <day\|week\|month>` | see the top 10 people on your leaderboard                  |
-| `@heyemoji points`                       | see how many emoji points you have left to give            |
-| `@heyemoji help`                         | get help with how to send recognition emoji                |
-
-| Direct Message Command                   | Description                                                |
+| Name                   | Description                                                |
 |------------------------------------------|------------------------------------------------------------|
 | `leaderboard <day\|week\|month>`           | see the top 10 people on your leaderboard                  |
 | `points`                                 | see how many emoji points you have left to give            |
 | `help`                                   | get help with how to send recognition emoji                |
 
+## Setup
+
+1. Browse to https://api.slack.com/apps?new_classic_app=1
+2. Assign a name and workspace to your new Slack Bot Application
+3. `Basic Information` > Set display name and icon
+4. `App Home` > Add Legacy Bot User
+5. `OAuth & Permissions` > Install App to Workspace
+6. Copy your **Bot User OAuth Access Token** for your `HEY_SLACK_API_TOKEN`
+7. Run `heyemoji` specifying the above token! 🎉
 
 ## Configuration
 
