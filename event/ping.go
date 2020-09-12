@@ -17,7 +17,7 @@ func (p PingHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !IsBotMentioned(msg, rtm) && !IsDirectMessage(msg) {
 		return false
 	}
-	if strings.Contains(msg.Text, "ping") {
+	if strings.Contains(strings.ToLower(msg.Text), "ping") {
 		return true
 	}
 	return false
