@@ -80,7 +80,7 @@ func (h LeaderHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, lea
 	}
 	msg += ">\n"
 	msg += "> You can view other leaderboards! :tada:\n"
-	msg += "> *leaderboard <day | week | year>*"
+	msg += "> *leaderboard <day | week | month>*"
 
 	rtm.SendMessage(rtm.NewOutgoingMessage(msg, ev.Channel))
 	return nil
