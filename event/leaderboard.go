@@ -30,7 +30,7 @@ func (h LeaderHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !IsBotMentioned(msg, rtm) && !IsDirectMessage(msg) {
 		return false
 	}
-	if strings.Contains(msg.Text, "leaderboard") {
+	if strings.Contains(strings.ToLower(msg.Text), "leaderboard") {
 		return true
 	}
 	return false
