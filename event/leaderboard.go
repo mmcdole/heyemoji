@@ -74,7 +74,7 @@ func (h LeaderHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, lea
 		name := rank[i]
 		uinfo, err := rtm.GetUserInfo(rank[i])
 		if err == nil {
-			name = uinfo.Name
+			name = uinfo.RealName
 		}
 		msg += fmt.Sprintf(">%d) %s `%d`\n", i+1, name, leaders[rank[i]])
 	}
