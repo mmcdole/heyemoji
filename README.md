@@ -49,7 +49,7 @@ The `heyemoji` bot is a self-hosted slack reward system that allows team members
 |---------------------|----------|----------|---------------------------------------------------------------|
 | HEY_BOT_NAME        | heyemoji | No       | The display name of the heyemoji bot                          |
 | HEY_DATABASE_PATH   | ./data/  | No       | The directory that the database files should be written to    |
-| HEY_SLACK_API_TOKEN |          | Yes      | The API tokens for the Slack API                              |
+| HEY_SLACK_TOKEN     |          | Yes      | The API tokens for the Slack API                              |
 | HEY_SLACK_EMOJI     | star:1   | No       | Comma delimited set of emoji "name:value" pairs               |
 | HEY_SLACK_DAILY_CAP | 5        | No       | The max number of emoji points that can be given out in a day |
 | HEY_WEBSOCKET_PORT  | 3334     | No       | Port that the Slack RTM client will listen on                 |
