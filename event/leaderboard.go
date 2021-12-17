@@ -47,6 +47,9 @@ func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	} else if strings.Contains(ev.Text, "week") {
 		start = start.AddDate(0, 0, -7)
 		header = "This Week's Leaderboard"
+	} else if strings.Contains(ev.Text, "year") {
+		start = start.AddDate(-1, 0, 0)
+		header = "This Year's Leaderboard"
 	} else {
 		/* Default to Month */
 		start = start.AddDate(0, -1, 0)
@@ -80,7 +83,7 @@ func (h LeaderHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, lea
 	}
 	msg += ">\n"
 	msg += "> You can view other leaderboards! :tada:\n"
-	msg += "> *leaderboard <day | week | month>*"
+	msg += "> *leaderboard <day | week | month | year>*"
 
 	rtm.SendMessage(rtm.NewOutgoingMessage(msg, ev.Channel))
 	return nil
