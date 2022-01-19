@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	maxLeaderEntries = 100
+	maxLeaderEntries = 10
 )
 
 func NewLeaderHandler(db database.Driver) LeaderHandler {
@@ -50,6 +50,9 @@ func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	} else if strings.Contains(ev.Text, "year") {
 		start = start.AddDate(0, 0, -365)
 		header = "This Year's Leaderboard"
+	} else if strings.Contains(ev.Text, "all") {
+		start = start.AddDate(-99, 0, 0)
+		header = "All Time Leaderboard"
 	} else {
 		/* Default to Month */
 		start = start.AddDate(0, 0, -30)
@@ -83,7 +86,7 @@ func (h LeaderHandler) handleSuccess(ev *slack.MessageEvent, rtm *slack.RTM, lea
 	}
 	msg += ">\n"
 	msg += "> You can view other leaderboards! :tada:\n"
-	msg += "> *leaderboard <day | week | month | year>*"
+	msg += "> *leaderboard <day | week | month>*"
 
 	rtm.SendMessage(rtm.NewOutgoingMessage(msg, ev.Channel))
 	return nil
