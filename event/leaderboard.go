@@ -52,7 +52,7 @@ func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 		header = "This Year's Leaderboard"
 	} else {
 		/* Default to Month */
-		start = start.AddDate(0, -1, 0)
+		start = start.AddDate(0, 0, -30)
 		header = "This Month's Leaderboard"
 	}
 
