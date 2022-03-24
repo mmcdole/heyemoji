@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	maxLeaderEntries = 10
+	maxLeaderEntries = 50
 )
 
 func NewLeaderHandler(db database.Driver) LeaderHandler {
