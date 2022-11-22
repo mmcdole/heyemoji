@@ -6,6 +6,6 @@ services:
     restart: always
     build: .
     ports:
-      - $PORT:$PORT
+      - 3334:3334
     stdin_open: true
     tty: true
