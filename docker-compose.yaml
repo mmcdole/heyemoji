@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  app:
+    container_name: heyemoji-bitops
+    env_file: .env
+    restart: always
+    build: .
+    ports:
+      - $PORT:$PORT
+    stdin_open: true
+    tty: true
