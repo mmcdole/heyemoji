@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - id: deploy
+      uses: bitovi/github-actions-node-app-to-aws-vm@main
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        aws_session_token: ${{ secrets.AWS_SESSION_TOKEN}}
+        aws_default_region: us-east-1
+        tf_state_bucket: my-terraform-state-bucket
+        dot_env: ${{ secrets.DOT_ENV }}
+        app_port: 3000
