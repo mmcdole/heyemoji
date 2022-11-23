@@ -69,7 +69,7 @@ The `HEY_SLACK_EMOJI` setting lets you specify multiple different reward emoji a
 You would specify the `HEY_SLACK_EMOJI` as: `star:1,clap:2,trophy:3`
 
 ## Deploy to AWS
-Deploying `heyemoji` to AWS is simple! The repo already contains the Github Action: [Deploy HeyEmoji](.github/workflows/deploy.yaml) which utilizes the [bitovi/github-actions-node-app-to-aws-vm]() action to create an EC2 instance and deploy an application to it using [BitOps](https://github.com/bitovi/bitops).
+Deploying `heyemoji` to AWS is simple! The repo already contains the Github Action: [Deploy HeyEmoji](.github/workflows/deploy.yaml) which utilizes the [bitovi/github-actions-node-app-to-aws-vm](https://github.com/bitovi/github-actions-node-app-to-aws-vm) action to create an EC2 instance and deploy an application to it using [BitOps](https://github.com/bitovi/bitops).
 
 To deploy to AWS;
 1. Navigate to `Github Repo Settings` > Secrets > Actions
