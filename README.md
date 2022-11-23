@@ -35,7 +35,7 @@ The `heyemoji` bot is a self-hosted slack reward system that allows team members
 
 ## Setup
 
-1. Browse to https://api.slack.com/apps?new_classic_app=1
+1. Browse to the Slack App Console and [Create a Classic App](https://api.slack.com/apps?new_classic_app=1)
 2. Assign a name and workspace to your new Slack Bot Application
 3. `Basic Information` > Set display name and icon
 4. `App Home` > Add Legacy Bot User
