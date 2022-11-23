@@ -29,7 +29,7 @@ The `heyemoji` bot is a self-hosted slack reward system that allows team members
 
 | Name                   | Description                                                |
 |------------------------------------------|------------------------------------------------------------|
-| `leaderboard <day\|week\|month>`           | see the top 10 people on your leaderboard                  |
+| `leaderboard <day\|week\|month\|year>`   | see the top 10 people on your leaderboard                  |
 | `points`                                 | see how many emoji points you have left to give            |
 | `help`                                   | get help with how to send recognition emoji                |
 

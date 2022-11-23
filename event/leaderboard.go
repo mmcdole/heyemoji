@@ -47,9 +47,18 @@ func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	} else if strings.Contains(ev.Text, "week") {
 		start = start.AddDate(0, 0, -7)
 		header = "This Week's Leaderboard"
+	} else if strings.Contains(ev.Text, "year") {
+		start = start.AddDate(0, 0, -365)
+		header = "This Year's Leaderboard"
+        } else if strings.Contains(ev.Text, "quarter") {
+                start = start.AddDate(0, 0, -91)
+                header = "This Quarter's Leaderboard"
+	} else if strings.Contains(ev.Text, "all") {
+		start = start.AddDate(-99, 0, 0)
+		header = "All Time Leaderboard"
 	} else {
 		/* Default to Month */
-		start = start.AddDate(0, -1, 0)
+		start = start.AddDate(0, 0, -30)
 		header = "This Month's Leaderboard"
 	}
 

@@ -13,7 +13,7 @@ import (
 func main() {
 
 	cfg := readConfig()
-	db := database.NewJSONLineDriver(cfg.DatabasePath, 30)
+	db := database.NewJSONLineDriver(cfg.DatabasePath, 5000)
 
 	if err := db.Open(); err != nil {
 		log.Fatalf("Failed to open db: %v", err)
