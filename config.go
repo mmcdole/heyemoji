@@ -23,7 +23,7 @@ func readConfig() *Config {
 
 	viper.SetDefault("bot_name", "heyemoji")
 	viper.SetDefault("database_path", "./data/")
-	viper.SetDefault("slack_api_token", "")
+	viper.SetDefault("slack_token", "")
 	viper.SetDefault("slack_emoji", "star:1")
 	viper.SetDefault("slack_daily_cap", 5)
 	viper.SetDefault("websocket_port", 3334)
