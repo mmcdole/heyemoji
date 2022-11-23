@@ -36,12 +36,13 @@ The `heyemoji` bot is a self-hosted slack reward system that allows team members
 ## Setup
 
 1. Browse to the Slack App Console and [Create a Classic App](https://api.slack.com/apps?new_classic_app=1)
-2. Assign a name and workspace to your new Slack Bot Application
-3. `Basic Information` > Set display name and icon
-4. `App Home` > Add Legacy Bot User
-5. `OAuth & Permissions` > Install App to Workspace
-6. Copy your **Bot User OAuth Access Token** for your `HEY_SLACK_API_TOKEN`
-7. Run `heyemoji` specifying the above token! 🎉
+1. Assign a name and workspace to your new Slack Bot Application
+1. `Basic Information` > Set display name and icon
+1. `App Home` > Add Legacy Bot User
+1. `OAuth & Permissions` > Install App to Workspace
+1. Copy your **Bot User OAuth Access Token** for your `HEY_SLACK_TOKEN`
+1. Create a `.env` file in the HeyEmoji root folder and add `HEY_SLACK_TOKEN=<Bot User OAuth Access Token>`
+1. Run `docker-compose up`! 🎉
 
 ## Configuration
 
@@ -67,3 +68,19 @@ The `HEY_SLACK_EMOJI` setting lets you specify multiple different reward emoji a
 
 You would specify the `HEY_SLACK_EMOJI` as: `star:1,clap:2,trophy:3`
 
+## Deploy to AWS
+Deploying `heyemoji` to AWS is simple! The repo already contains the Github Action: [Deploy HeyEmoji](.github/workflows/deploy.yaml) which utilizes the [bitovi/github-actions-node-app-to-aws-vm]() action to create an EC2 instance and deploy an application to it using [BitOps](https://github.com/bitovi/bitops).
+
+To deploy to AWS;
+1. Navigate to `Github Repo Settings` > Secrets > Actions
+2. Within the `Repository secrets ` scope (minimum) add the following values;
+    - AWS_ACCESS_KEY_ID > retrieved from the AWS IAM console 
+    - AWS_SECRET_ACCESS_KEY > retrieved from the AWS IAM console 
+    - DOT_ENV > Values passed to HeyEmoji. Use `key=value` separated by a newline
+
+
+**Example DOT_ENV Value**
+```
+HEY_SLACK_TOKEN=xoxb-12345-12345-a1b2c3d4
+HEY_SLACK_EMOJI=egg:1,hatching_chick:2,hatched_chick:3
+```
