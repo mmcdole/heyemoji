@@ -1,4 +1,4 @@
-name: Deploy HeyEmoji to AWS using the BitOps Github Action
+name: Destroy HeyEmoji to AWS using the BitOps Github Action
 
 on:
   push:
