@@ -3,7 +3,7 @@ name: Deploy Internal HeyEmoji
 on:
   push:
     branches:
-      - "deployment-pipelines"
+      - "main"
   workflow_dispatch:
     inputs:
       aws-default-region:
@@ -26,3 +26,4 @@ jobs:
         aws_default_region: ${{ github.event.inputs.aws-default-region }}
         dot_env: ${{ secrets.DOT_ENV_INTERNAL }}
         app_port: 3334
+        tf_state_bucket: bitovi-internal-heyemoji-main-tf-state
