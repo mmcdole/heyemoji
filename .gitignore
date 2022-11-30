@@ -19,4 +19,5 @@ data/
 __debug_bin
 
 # Sensative
-.env 
+.env
+.env.*
