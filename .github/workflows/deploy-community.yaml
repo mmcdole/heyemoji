@@ -26,4 +26,4 @@ jobs:
         aws_default_region: ${{ github.event.inputs.aws-default-region }}
         dot_env: ${{ secrets.DOT_ENV_COMMUNITY }}
         app_port: 3334
-        tf_state_bucket: bitovi-heyemoji-main-tf-state
+        tf_state_bucket: bitovi-community-heyemoji-main-tf-state
