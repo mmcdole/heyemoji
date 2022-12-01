@@ -10,9 +10,8 @@ on:
       destroy:
         type: choice
         options:
-          - true
           - false
-        default: false
+          - true
 
 permissions:
   contents: read
