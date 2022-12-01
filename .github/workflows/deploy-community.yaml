@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "main"
+    paths-ignore:
+      - '.github/workflows/deploy-internal.yaml'
   workflow_dispatch:
     inputs:
       aws-default-region:

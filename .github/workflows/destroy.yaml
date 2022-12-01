@@ -1,9 +1,6 @@
 name: Destroy HeyEmoji to AWS using the BitOps Github Action
 
 on:
-  push:
-    branches:
-      - "main"
   workflow_dispatch:
     inputs:
       aws-default-region:
