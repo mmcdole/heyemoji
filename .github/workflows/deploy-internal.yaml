@@ -1,11 +1,6 @@
 name: Deploy Internal HeyEmoji
 
 on:
-  push:
-    branches:
-      - "main"
-    paths-ignore:
-      - '.github/workflows/deploy-community.yaml'
   workflow_dispatch:
     inputs:
       aws-default-region:
