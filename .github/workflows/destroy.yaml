@@ -1,0 +1,27 @@
+name: Destroy HeyEmoji to AWS using the BitOps Github Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      aws-default-region:
+        type: string
+        description: AWS Region targeted for deployment
+        default: us-east-1
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - id: deploy
+      uses: bitovi/github-actions-deploy-docker-to-ec2@v0.1.0
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_default_region: ${{ github.event.inputs.aws-default-region }}
+        dot_env: ${{ secrets.DOT_ENV }}
+        app_port: 3334
+        stack_destroy: true
+        
