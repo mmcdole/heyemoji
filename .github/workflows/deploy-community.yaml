@@ -6,7 +6,7 @@ on:
       aws-default-region:
         type: string
         description: AWS Region targeted for deployment
-        default: us-east-
+        default: us-east-1
       destroy:
         type: choice
         options:
