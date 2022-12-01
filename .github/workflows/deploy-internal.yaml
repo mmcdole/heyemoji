@@ -7,6 +7,12 @@ on:
         type: string
         description: AWS Region targeted for deployment
         default: us-east-1
+      destroy:
+        type: choice
+        options:
+          - true
+          - false
+        default: false
 
 permissions:
   contents: read
@@ -24,3 +30,4 @@ jobs:
         dot_env: ${{ secrets.DOT_ENV_INTERNAL }}
         app_port: 3334
         tf_state_bucket: bitovi-internal-heyemoji-main-tf-state
+        stack_destroy: ${{ github.event.inputs.destroy }}

@@ -6,7 +6,13 @@ on:
       aws-default-region:
         type: string
         description: AWS Region targeted for deployment
-        default: us-east-1
+        default: us-east-
+      destroy:
+        type: choice
+        options:
+          - true
+          - false
+        default: false
 
 permissions:
   contents: read
@@ -24,3 +30,4 @@ jobs:
         dot_env: ${{ secrets.DOT_ENV_COMMUNITY }}
         app_port: 3334
         tf_state_bucket: bitovi-community-heyemoji-main-tf-state
+        stack_destroy: ${{ github.event.inputs.destroy }}
