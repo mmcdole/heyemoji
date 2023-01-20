@@ -30,3 +30,4 @@ jobs:
         ghv_env: ${{ vars.DOT_ENV_INTERNAL }}
         app_port: 3334
         stack_destroy: ${{ github.event.inputs.destroy }}
+        create_keypair_sm_entry: true
