@@ -9,3 +9,5 @@ services:
       - 3334:3334
     stdin_open: true
     tty: true
+    volumes:
+    - /data:/data
