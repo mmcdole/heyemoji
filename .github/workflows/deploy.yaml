@@ -27,5 +27,6 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_HEYEMOJI }}
         aws_default_region: ${{ github.event.inputs.aws-default-region }}
         dot_env: ${{ secrets.DOT_ENV_INTERNAL }}
+        ghv_env: ${{ vars.DOT_ENV_INTERNAL }}
         app_port: 3334
         stack_destroy: ${{ github.event.inputs.destroy }}
