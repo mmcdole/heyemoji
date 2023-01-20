@@ -12,6 +12,11 @@ on:
         options:
           - false
           - true
+      create_keypair_sm_entry:
+        type: choice
+        options:
+          - false
+          - true
 
 permissions:
   contents: read
@@ -30,4 +35,5 @@ jobs:
         ghv_env: ${{ vars.DOT_ENV_INTERNAL }}
         app_port: 3334
         stack_destroy: ${{ github.event.inputs.destroy }}
-        create_keypair_sm_entry: true
+        create_keypair_sm_entry: ${{ github.event.inputs.create_keypair_sm_entry }}
+
