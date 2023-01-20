@@ -10,4 +10,4 @@ services:
     stdin_open: true
     tty: true
     volumes:
-    - /data:/data
+      - ./data:/data
