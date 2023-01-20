@@ -10,4 +10,4 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./data:$HEY_DATABASE_PATH
+      - $HOME/data:$HEY_DATABASE_PATH
