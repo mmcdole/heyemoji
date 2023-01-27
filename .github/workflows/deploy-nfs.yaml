@@ -6,9 +6,11 @@ on:
       stack_destroy:  
         type: boolean
         default: false
-
-permissions:
-  contents: write
+      create_efs:  
+        type: boolean
+        default: false
+      efs_zone_mapping:
+        type: string
 
 jobs:
   deploy:
@@ -22,4 +24,5 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_SANDBOX}}
         aws_default_region: us-east-1
         stack_destroy: ${{ github.event.inputs.stack_destroy }}
-
+        create_efs: ${{ github.event.inputs.create_efs }}
+        efs_zone_mapping: ${{ github.event.inputs.efs_zone_mapping }}
