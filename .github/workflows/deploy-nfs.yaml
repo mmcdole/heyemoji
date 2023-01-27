@@ -1,0 +1,25 @@
+name: Deploy HeyEmoji (Testing)
+
+on:
+  workflow_dispatch:
+    inputs:
+      stack_destroy:  
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - id: deploy
+      name: Deploy
+      uses: bitovi/github-actions-deploy-docker-to-ec2@release
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID_SANDBOX}}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_SANDBOX}}
+        aws_default_region: us-east-1
+        stack_destroy: ${{ github.event.inputs.stack_destroy }}
+        create_release: true
