@@ -25,7 +25,7 @@ func (h PointsHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !IsBotMentioned(msg, rtm) && !IsDirectMessage(msg) {
 		return false
 	}
-	if strings.Contains(strings.ToLower(msg.Text), "points") {
+	if strings.EqualFold(msg.Text, "points") {
 		return true
 	}
 	return false

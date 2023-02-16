@@ -29,6 +29,10 @@ func (h EmojiHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !ok {
 		return false
 	}
+	// Message contains data from message sent by help command
+	if !strings.Contains(strings.ToLower(msg.Text), "recognition emoji") {
+		return false
+	}
 	// Message contains one of the pre-defined slack emojis
 	if re := h.emojiRegex(); re.MatchString(msg.Text) {
 		return true

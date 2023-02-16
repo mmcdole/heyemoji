@@ -30,8 +30,12 @@ func (h LeaderHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !IsBotMentioned(msg, rtm) && !IsDirectMessage(msg) {
 		return false
 	}
-	if strings.Contains(strings.ToLower(msg.Text), "leaderboard") {
-		return true
+	// Pre-defined leaderboard commands
+	leaderboardCommands := [4]string{"leaderboard", "leaderboard day", "leaderboard week", "leaderboard month"}
+	for _, command := range leaderboardCommands {
+		if strings.EqualFold(msg.Text, command) {
+			return true
+		}
 	}
 	return false
 }
@@ -50,9 +54,9 @@ func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	} else if strings.Contains(ev.Text, "year") {
 		start = start.AddDate(0, 0, -365)
 		header = "This Year's Leaderboard"
-        } else if strings.Contains(ev.Text, "quarter") {
-                start = start.AddDate(0, 0, -91)
-                header = "This Quarter's Leaderboard"
+	} else if strings.Contains(ev.Text, "quarter") {
+		start = start.AddDate(0, 0, -91)
+		header = "This Quarter's Leaderboard"
 	} else if strings.Contains(ev.Text, "all") {
 		start = start.AddDate(-99, 0, 0)
 		header = "All Time Leaderboard"
