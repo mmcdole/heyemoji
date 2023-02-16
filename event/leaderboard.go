@@ -30,12 +30,8 @@ func (h LeaderHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !IsBotMentioned(msg, rtm) && !IsDirectMessage(msg) {
 		return false
 	}
-	// Pre-defined leaderboard commands
-	leaderboardCommands := [4]string{"leaderboard", "leaderboard day", "leaderboard week", "leaderboard month"}
-	for _, command := range leaderboardCommands {
-		if strings.EqualFold(msg.Text, command) {
-			return true
-		}
+	if strings.Contains(strings.ToLower(msg.Text), "leaderboard") {
+		return true
 	}
 	return false
 }

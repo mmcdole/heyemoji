@@ -25,7 +25,7 @@ func (h HelpHandler) Matches(e slack.RTMEvent, rtm *slack.RTM) bool {
 	if !IsBotMentioned(msg, rtm) && !IsDirectMessage(msg) {
 		return false
 	}
-	if strings.EqualFold(msg.Text, "help") {
+	if strings.Contains(strings.ToLower(msg.Text), "help") {
 		return true
 	}
 	return false

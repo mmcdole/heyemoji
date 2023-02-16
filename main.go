@@ -39,7 +39,9 @@ func main() {
 	for msg := range rtm.IncomingEvents {
 		fmt.Print("Event Received: ")
 		fmt.Printf("Message: %v\n", msg.Data)
-
+		if event.IsBotMessage(msg) {
+			continue
+		}
 		for _, h := range handlers {
 			if !h.Matches(msg, rtm) {
 				continue
