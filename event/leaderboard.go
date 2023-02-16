@@ -50,9 +50,9 @@ func (h LeaderHandler) Execute(e slack.RTMEvent, rtm *slack.RTM) bool {
 	} else if strings.Contains(ev.Text, "year") {
 		start = start.AddDate(0, 0, -365)
 		header = "This Year's Leaderboard"
-        } else if strings.Contains(ev.Text, "quarter") {
-                start = start.AddDate(0, 0, -91)
-                header = "This Quarter's Leaderboard"
+	} else if strings.Contains(ev.Text, "quarter") {
+		start = start.AddDate(0, 0, -91)
+		header = "This Quarter's Leaderboard"
 	} else if strings.Contains(ev.Text, "all") {
 		start = start.AddDate(-99, 0, 0)
 		header = "All Time Leaderboard"

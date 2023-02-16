@@ -27,6 +27,14 @@ func IsDirectMessage(event *slack.MessageEvent) bool {
 	return strings.HasPrefix(event.Channel, directChannelMarker)
 }
 
+func IsBotMessage(msg slack.RTMEvent) bool {
+	msgEvent, ok := msg.Data.(*slack.MessageEvent)
+	if !ok {
+		return true
+	}
+	return msgEvent.BotID != ""
+}
+
 // Get last point reset time
 func LastPointReset() time.Time {
 	reset := time.Now()
